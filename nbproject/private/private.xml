@@ -3,14 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/sametsahin/NetBeansProjects/StarWars/src/starwars/Stormtrooper.java</file>
-            <file>file:/Users/sametsahin/NetBeansProjects/StarWars/src/starwars/LukeSkywalker.java</file>
-            <file>file:/Users/sametsahin/NetBeansProjects/StarWars/src/starwars/DarthVader.java</file>
-            <file>file:/Users/sametsahin/NetBeansProjects/StarWars/src/starwars/KyloRen.java</file>
-            <file>file:/Users/sametsahin/NetBeansProjects/StarWars/src/starwars/MasterYoda.java</file>
-            <file>file:/Users/sametsahin/NetBeansProjects/StarWars/src/starwars/Karakter.java</file>
-            <file>file:/Users/sametsahin/NetBeansProjects/StarWars/src/starwars/Lokasyon.java</file>
-            <file>file:/Users/sametsahin/NetBeansProjects/StarWars/src/starwars/StarWars.java</file>
+            <file>file:/Users/sametsahin/NetBeansProjects/star-wars/src/starwars/StarWars.java</file>
+            <file>file:/Users/sametsahin/NetBeansProjects/star-wars/src/starwars/UserInterface.java</file>
         </group>
     </open-files>
 </project-private>
