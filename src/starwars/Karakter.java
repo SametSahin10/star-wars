@@ -1,5 +1,7 @@
 package starwars;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author sametsahin
@@ -9,12 +11,19 @@ public class Karakter {
     private String karakterTuru;
     private int x;
     private int y;
-
+    
+    private ImageIcon karakterSimgesi;
+    
     public Karakter() {};
     
-    public Karakter(String karakterAdi, String karakterTuru, int x, int y) {
+    public Karakter(String karakterAdi, 
+            String karakterTuru, 
+            String KARAKTER_SIMGESI_DIZINI,
+            int x,
+            int y) {
         this.karakterAdi = karakterAdi;
         this.karakterTuru = karakterTuru;
+        this.karakterSimgesi = new ImageIcon(KARAKTER_SIMGESI_DIZINI);
         this.x = x;
         this.y = y;
     }
@@ -50,9 +59,13 @@ public class Karakter {
     public void setY(int y) {
         this.y = y;
     }
-    
+
     public int[][] enKisaYol() {
         return null;
+    }
+    
+    public ImageIcon getKarakterSimgesi() {
+        return karakterSimgesi;
     }
     
 }

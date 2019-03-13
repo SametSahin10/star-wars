@@ -6,12 +6,15 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -150,12 +153,28 @@ public class UserInterface extends JFrame {
         mapPanel.add(northArrowPanel, BorderLayout.NORTH);
         mapPanel.add(southArrowPanel, BorderLayout.SOUTH);
         
-        JTable mapTable = new JTable(11, 14);
-        mapTable.setRowHeight(58);
-        mapTable.setGridColor(Color.black);
-        mapTable.setShowGrid(true);
-        mapTable.setBackground(Color.yellow);
-        mapPanel.add(mapTable, BorderLayout.CENTER);
+        JPanel playGroundPanel = new JPanel(new GridLayout(11, 14));
+        
+        JLabel cellsAsJLabels[][] = new JLabel[11][14];
+        
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 14; j++) {
+                cellsAsJLabels[i][j] = new JLabel("1");
+                cellsAsJLabels[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
+                cellsAsJLabels[i][j].setVerticalAlignment(SwingConstants.BOTTOM);
+                cellsAsJLabels[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                playGroundPanel.add(cellsAsJLabels[i][j]);
+            }
+        }
+        
+        DarthVader darthVader = new DarthVader(5, 12);
+        cellsAsJLabels[5][6].setHorizontalAlignment(SwingConstants.CENTER);
+        cellsAsJLabels[5][6].setVerticalAlignment(SwingConstants.CENTER);
+        cellsAsJLabels[5][6].setText("");
+        cellsAsJLabels[5][6].setIcon(darthVader.getKarakterSimgesi());
+        
+        playGroundPanel.setBackground(Color.PINK);
+        mapPanel.add(playGroundPanel, BorderLayout.CENTER);
         
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -168,7 +187,7 @@ public class UserInterface extends JFrame {
         
         //Third row of GridBagLayout
         
-        JPanel shortestPathPanel = new JPanel();
+        JPanel shortestPathPanel = new JPanel(new BorderLayout());
         shortestPathPanel.setBackground(new Color(150, 191, 195));
         
         gbc.gridx = 0;
@@ -182,13 +201,15 @@ public class UserInterface extends JFrame {
         
         String dummyPath;
         dummyPath = "Stormtrooper (0,12)'den (5, 6)'ya 11 adimda ulasir.";
-        JLabel shortestPathText = new JLabel(dummyPath);
-        shortestPathPanel.add(shortestPathText);
+        JLabel shortestPathLabel = new JLabel(dummyPath);
+        shortestPathLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+        shortestPathLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        shortestPathLabel.setVerticalAlignment(SwingConstants.CENTER);
+        shortestPathPanel.add(shortestPathLabel, BorderLayout.CENTER);
         
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
-    
 }
