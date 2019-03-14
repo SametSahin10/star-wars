@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -157,14 +160,23 @@ public class UserInterface extends JFrame {
         
         JLabel cellsAsJLabels[][] = new JLabel[11][14];
         
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 14; j++) {
-                cellsAsJLabels[i][j] = new JLabel("1");
-                cellsAsJLabels[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
-                cellsAsJLabels[i][j].setVerticalAlignment(SwingConstants.BOTTOM);
-                cellsAsJLabels[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                playGroundPanel.add(cellsAsJLabels[i][j]);
+        FileOperations fileOperations = new FileOperations();
+        
+        try {
+            String[][] mazeData = fileOperations.readDataFromText();
+            
+            for (int i = 0; i < 11; i++) {
+                for (int j = 0; j < 14; j++) {
+                    cellsAsJLabels[i][j] = new JLabel(mazeData[i][j]);
+                    cellsAsJLabels[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
+                    cellsAsJLabels[i][j].setVerticalAlignment(SwingConstants.BOTTOM);
+                    cellsAsJLabels[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    playGroundPanel.add(cellsAsJLabels[i][j]);
+                }
             }
+            
+        } catch (IOException iOException) {
+            iOException.printStackTrace();
         }
         
         DarthVader darthVader = new DarthVader(5, 12);
@@ -211,5 +223,46 @@ public class UserInterface extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+    
+    private class FileOperations {
+        private String[][] readDataFromText() throws IOException {
+            String[] lines = new String[13];
+            Scanner in = null;
+        
+            try {
+                in = new Scanner(new FileReader("resources/Harita.txt"));
+                in.useDelimiter("\n");
+                int i = 0;
+                while (in.hasNext()) {
+                lines[i] = in.next();
+                i++;
+                }
+            } finally {
+                if (in != null) {
+                in.close();
+                }
+            }
+            
+            String[][] mazeData = new String[11][14];
+        
+            for (int i = 2; i < lines.length; i++) {
+                try {
+                    in = new Scanner(lines[i]);
+                    in.useDelimiter("\t");
+                    int j = 0;
+                    while (in.hasNext()) {                    
+                    mazeData[i - 2][j] = in.next();
+                    j++;
+                    }
+                } finally {
+                    if (in != null) {
+                    in.close();
+                    }
+                }
+            }
+            
+            return mazeData;
+        }
     }
 }
