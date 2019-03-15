@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Scanner;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -163,7 +164,7 @@ public class UserInterface extends JFrame {
         FileOperations fileOperations = new FileOperations();
         
         try {
-            String[][] mazeData = fileOperations.readDataFromText();
+            String[][] mazeData = fileOperations.readMazeDataFromText();
             
             for (int i = 0; i < 11; i++) {
                 for (int j = 0; j < 14; j++) {
@@ -226,10 +227,10 @@ public class UserInterface extends JFrame {
     }
     
     private class FileOperations {
-        private String[][] readDataFromText() throws IOException {
-            String[] lines = new String[13];
-            Scanner in = null;
+        Scanner in = null;
         
+        private String[] readLinesFromText() throws IOException {
+            String[] lines = new String[13];
             try {
                 in = new Scanner(new FileReader("resources/Harita.txt"));
                 in.useDelimiter("\n");
@@ -243,6 +244,13 @@ public class UserInterface extends JFrame {
                 in.close();
                 }
             }
+            return lines;
+        }
+        
+        
+        
+        private String[][] readMazeDataFromText() throws IOException {
+            String[] lines = readLinesFromText();
             
             String[][] mazeData = new String[11][14];
         
@@ -263,6 +271,38 @@ public class UserInterface extends JFrame {
             }
             
             return mazeData;
+        }
+        
+        private HashMap readCharacterDataFromText() throws IOException {
+            String[] lines = readLinesFromText();
+            
+            HashMap<String, String> charAndDoor = new HashMap<>();
+            
+            String[][] characterInfos = new String[2][2];
+            int i = 0;
+        
+            try {
+                for (int j = 0; j < characterInfos.length; j++) {
+                    in = new Scanner(lines[i]);
+                    in.useDelimiter(",");
+                    while (in.hasNext()) {
+                        for (int k = 0; k < characterInfos[j].length; k++) {
+                            characterInfos[j][k] = in.next();
+                        }
+                        i++;
+                    }   
+                }
+                } finally {
+                    if (in != null) {
+                    in.close();
+                    }
+                }
+            
+            for (int j = 0, m = 0; j < characterInfos.length; j++) {
+                charAndDoor.put(characterInfos[j][m], characterInfos[j][m + 1]);
+            }
+            
+            return charAndDoor;
         }
     }
 }
