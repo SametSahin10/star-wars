@@ -25,6 +25,7 @@ import javax.swing.table.AbstractTableModel;
  * @author sametsahin
  */
 public class UserInterface extends JFrame {
+    private JLabel cellsAsJLabels[][];
         
     public UserInterface(String title) {
         super(title);
@@ -159,7 +160,7 @@ public class UserInterface extends JFrame {
         
         JPanel playGroundPanel = new JPanel(new GridLayout(11, 14));
         
-        JLabel cellsAsJLabels[][] = new JLabel[11][14];
+        cellsAsJLabels = new JLabel[11][14];
         
         FileOperations fileOperations = new FileOperations();
         
@@ -176,15 +177,14 @@ public class UserInterface extends JFrame {
                 }
             }
             
-        } catch (IOException iOException) {
-            iOException.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
         
-        DarthVader darthVader = new DarthVader(5, 12);
-        cellsAsJLabels[5][6].setHorizontalAlignment(SwingConstants.CENTER);
-        cellsAsJLabels[5][6].setVerticalAlignment(SwingConstants.CENTER);
-        cellsAsJLabels[5][6].setText("");
-        cellsAsJLabels[5][6].setIcon(darthVader.getKarakterSimgesi());
+        //Add character here.
+        CharacterOperations co = new CharacterOperations();
+        co.addGoodCharacter("Luke Skywalker", 5, 6);
+        co.addBadCharacter("Darth Vader", 0, 12);
         
         playGroundPanel.setBackground(Color.PINK);
         mapPanel.add(playGroundPanel, BorderLayout.CENTER);
@@ -247,8 +247,6 @@ public class UserInterface extends JFrame {
             return lines;
         }
         
-        
-        
         private String[][] readMazeDataFromText() throws IOException {
             String[] lines = readLinesFromText();
             
@@ -273,7 +271,7 @@ public class UserInterface extends JFrame {
             return mazeData;
         }
         
-        private HashMap readCharacterDataFromText() throws IOException {
+        private HashMap readBadCharDataFromText() throws IOException {
             String[] lines = readLinesFromText();
             
             HashMap<String, String> charAndDoor = new HashMap<>();
@@ -303,6 +301,48 @@ public class UserInterface extends JFrame {
             }
             
             return charAndDoor;
+        }
+    }
+    
+    private class CharacterOperations {
+        private void addBadCharacter(String charName, int x, int y) {
+            switch (charName) {
+                case "Darth Vader":
+                    DarthVader darthVader = new DarthVader(x, y);
+                    cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[x][y].setText("");
+                    cellsAsJLabels[x][y].setIcon(darthVader.getKarakterSimgesi());
+                    break;
+                case "Kylo Ren":
+                    KyloRen kyloRen = new KyloRen(x, y);
+                    cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[x][y].setText("");
+                    cellsAsJLabels[x][y].setIcon(kyloRen.getKarakterSimgesi());
+                case "Stormtrooper":
+                    Stormtrooper stormtrooper = new Stormtrooper(x, y);
+                    cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[x][y].setText("");
+                    cellsAsJLabels[x][y].setIcon(stormtrooper.getKarakterSimgesi());    
+                default:
+                    System.err.println("Character cannot be added");
+            }
+        }
+        
+        private void addGoodCharacter(String charName, int x, int y) {
+            switch (charName) {
+                case "Luke Skywalker":
+                    LukeSkywalker lukeskywalker = new LukeSkywalker(x, y);
+                    cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[x][y].setText("");
+                    cellsAsJLabels[x][y].setIcon(lukeskywalker.getKarakterSimgesi());
+                    break;
+                default:
+                    System.err.println("Character cannot be added");
+            }
         }
     }
 }

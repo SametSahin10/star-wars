@@ -5,7 +5,8 @@ package starwars;
  * @author sametsahin
  */
 public class MasterYoda extends Karakter {
-    private static final String KARAKTER_SIMGESI_DIZINI = "resources/upArrow";
+    private static final String KARAKTER_SIMGESI_DIZINI 
+            = "resources/upArrow.png";
     
     private int can;
 
