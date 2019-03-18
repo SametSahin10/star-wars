@@ -6,10 +6,10 @@ package starwars;
  */
 public class Stormtrooper extends Karakter {
     private static final String KARAKTER_SIMGESI_DIZINI 
-            = "resources/upArrow.png";
+            = "resources/stormtrooper.png";
 
-    public Stormtrooper(int x, int y) {
-        super("Stormtrooper", "kötü", KARAKTER_SIMGESI_DIZINI, x, y);
+    public Stormtrooper(int x, int y, boolean isActive) {
+        super("Stormtrooper", "kötü", KARAKTER_SIMGESI_DIZINI, x, y, isActive);
     }
 
     @Override

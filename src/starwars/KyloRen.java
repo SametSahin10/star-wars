@@ -6,10 +6,10 @@ package starwars;
  */
 public class KyloRen extends Karakter{
     private static final String KARAKTER_SIMGESI_DIZINI 
-            = "resources/upArrow.png";
+            = "resources/kyloRen.png";
 
-    public KyloRen(int x, int y) {
-        super("Kylo Ren", "kötü", KARAKTER_SIMGESI_DIZINI, x, y);
+    public KyloRen(int x, int y, boolean isActive) {
+        super("Kylo Ren", "kötü", KARAKTER_SIMGESI_DIZINI, x, y, isActive);
     }
     
     @Override

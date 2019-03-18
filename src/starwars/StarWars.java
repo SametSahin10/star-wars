@@ -11,9 +11,6 @@ public class StarWars {
      */
     public static void main(String[] args) {
         new UserInterface("Star Wars");
-        
-//        DarthVader darthVader = new DarthVader(5, 12);
-        
     }
     
 }

@@ -9,23 +9,23 @@ import javax.swing.ImageIcon;
 public class Karakter {
     private String karakterAdi;
     private String karakterTuru;
-    private int x;
-    private int y;
+    private Lokasyon lokasyon;
+    private boolean isActive;
     
     private ImageIcon karakterSimgesi;
     
-    public Karakter() {};
+    public Karakter() {}
     
     public Karakter(String karakterAdi, 
             String karakterTuru, 
             String KARAKTER_SIMGESI_DIZINI,
             int x,
-            int y) {
+            int y, boolean isActive) {
         this.karakterAdi = karakterAdi;
         this.karakterTuru = karakterTuru;
+        this.lokasyon = new Lokasyon(x, y);
+        this.isActive = isActive;
         this.karakterSimgesi = new ImageIcon(KARAKTER_SIMGESI_DIZINI);
-        this.x = x;
-        this.y = y;
     }
 
     public String getKarakterAdi() {
@@ -44,26 +44,22 @@ public class Karakter {
         this.karakterTuru = karakterTuru;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public int[][] enKisaYol() {
         return null;
     }
-    
+
+    public Lokasyon getLokasyon() {
+        return lokasyon;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     public ImageIcon getKarakterSimgesi() {
         return karakterSimgesi;
     }

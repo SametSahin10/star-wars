@@ -6,8 +6,11 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import javax.swing.BorderFactory;
@@ -15,10 +18,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.table.AbstractTableModel;
+
+import jdk.swing.interop.SwingInterOpUtils;
 
 /**
  *
@@ -180,12 +183,11 @@ public class UserInterface extends JFrame {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        
+
         //Add character here.
         CharacterOperations co = new CharacterOperations();
         co.addGoodCharacter("Luke Skywalker", 5, 6);
-        co.addBadCharacter("Darth Vader", 0, 12);
-        
+
         playGroundPanel.setBackground(Color.PINK);
         mapPanel.add(playGroundPanel, BorderLayout.CENTER);
         
@@ -219,7 +221,39 @@ public class UserInterface extends JFrame {
         shortestPathLabel.setHorizontalAlignment(SwingConstants.CENTER);
         shortestPathLabel.setVerticalAlignment(SwingConstants.CENTER);
         shortestPathPanel.add(shortestPathLabel, BorderLayout.CENTER);
-        
+
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    System.out.println("Hello from UP Key Pressed");
+                    co.moveCharacter("UP");
+
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    System.out.println("Hello from DOWN Key Pressed");
+                    co.moveCharacter("DOWN");
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    System.out.println("Hello from LEFT Key Pressed");
+                    co.moveCharacter("LEFT");
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    System.out.println("Hello from RIGHT Key Pressed");
+                    co.moveCharacter("RIGHT");
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+
         setSize(1000, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -305,43 +339,207 @@ public class UserInterface extends JFrame {
     }
     
     private class CharacterOperations {
-        private void addBadCharacter(String charName, int x, int y) {
+        private ArrayList<Karakter> goodCharacters = new ArrayList<>();
+        private ArrayList<Karakter> badCharacters = new ArrayList<>();
+//        private LukeSkywalker lukeSkywalker;
+//        private MasterYoda masterYoda;
+//        private DarthVader darthVader;
+//        private KyloRen kyloRen;
+//        private Stormtrooper stormtrooper;
+
+//        private void addBadCharacter(String charName, int x, int y) {
+//            int locX;
+//            int locY;
+//
+//            switch (charName) {
+//                case "Darth Vader":
+//                    darthVader = new DarthVader(x, y);
+//                    locX = darthVader.getLokasyon().getX();
+//                    locY = darthVader.getLokasyon().getY();
+//                    cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+//                    cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+//                    cellsAsJLabels[locX][locY].setText("");
+//                    cellsAsJLabels[locX][locY].setIcon(darthVader.getKarakterSimgesi());
+//                    break;
+//                case "Kylo Ren":
+//                    kyloRen = new KyloRen(x, y);
+//                    locX = kyloRen.getLokasyon().getX();
+//                    locY = kyloRen.getLokasyon().getY();
+//                    cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+//                    cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+//                    cellsAsJLabels[locX][locY].setText("");
+//                    cellsAsJLabels[locX][locY].setIcon(kyloRen.getKarakterSimgesi());
+//                    break;
+//                case "Stormtrooper":
+//                    stormtrooper = new Stormtrooper(x, y);
+//                    locX = stormtrooper.getLokasyon().getX();
+//                    locY = stormtrooper.getLokasyon().getY();
+//                    cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+//                    cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+//                    cellsAsJLabels[locX][locY].setText("");
+//                    cellsAsJLabels[locX][locY].setIcon(stormtrooper.getKarakterSimgesi());
+//                    break;
+//                default:
+//                    System.err.println("Character cannot be added");
+//            }
+//        }
+        
+        private void addGoodCharacter(String charName, int x, int y) {
+            int locX;
+            int locY;
+
             switch (charName) {
-                case "Darth Vader":
-                    DarthVader darthVader = new DarthVader(x, y);
-                    cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.CENTER);
-                    cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.CENTER);
-                    cellsAsJLabels[x][y].setText("");
-                    cellsAsJLabels[x][y].setIcon(darthVader.getKarakterSimgesi());
+                case "Luke Skywalker":
+                    System.out.println("Hello from addGoodCharacter");
+                    goodCharacters.add(new LukeSkywalker(x, y, true));
+                    //Get back here
+                    if (goodCharacters.get(0).isActive()) {
+                        System.out.println("isActive is true");
+                    }
+                    locX = goodCharacters.get(0).getLokasyon().getX();
+                    System.out.println("LocationX is: " + locX);
+                    locY = goodCharacters.get(0).getLokasyon().getY();
+                    System.out.println("LocationY is: " + locY);
+                    cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[locX][locY].setText("");
+                    cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(0).getKarakterSimgesi());
                     break;
-                case "Kylo Ren":
-                    KyloRen kyloRen = new KyloRen(x, y);
-                    cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.CENTER);
-                    cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.CENTER);
-                    cellsAsJLabels[x][y].setText("");
-                    cellsAsJLabels[x][y].setIcon(kyloRen.getKarakterSimgesi());
-                case "Stormtrooper":
-                    Stormtrooper stormtrooper = new Stormtrooper(x, y);
-                    cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.CENTER);
-                    cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.CENTER);
-                    cellsAsJLabels[x][y].setText("");
-                    cellsAsJLabels[x][y].setIcon(stormtrooper.getKarakterSimgesi());    
+                case "Master Yoda":
+                    goodCharacters.add(new MasterYoda(x, y, true));
+                    locX = goodCharacters.get(1).getLokasyon().getX();
+                    locY = goodCharacters.get(1).getLokasyon().getY();
+                    cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                    cellsAsJLabels[locX][locY].setText("");
+                    cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(1).getKarakterSimgesi());
+//                    cellsAsJLabels[locX][locY].addKeyListener(new ControlKeyListener());
+                    break;
                 default:
                     System.err.println("Character cannot be added");
             }
         }
-        
-        private void addGoodCharacter(String charName, int x, int y) {
-            switch (charName) {
-                case "Luke Skywalker":
-                    LukeSkywalker lukeskywalker = new LukeSkywalker(x, y);
-                    cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.CENTER);
-                    cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.CENTER);
-                    cellsAsJLabels[x][y].setText("");
-                    cellsAsJLabels[x][y].setIcon(lukeskywalker.getKarakterSimgesi());
+
+        private void clearOldCell(int x, int y) {
+            System.out.println("clearOldCell()");
+            cellsAsJLabels[x][y].setHorizontalAlignment(SwingConstants.RIGHT);
+            cellsAsJLabels[x][y].setVerticalAlignment(SwingConstants.BOTTOM);
+            cellsAsJLabels[x][y].setText("1");
+            cellsAsJLabels[x][y].setIcon(null);
+        }
+
+        private void moveCharacter(String whereTo) {
+            System.out.println("moveCharacter()");
+            if (goodCharacters.get(0) == null) {
+                System.out.println("Luke Skywalker is null");
+            }
+            switch (whereTo) {
+                case "UP":
+                    if (goodCharacters.get(0).isActive()) {
+                        System.out.println("Hello from UP");
+                        if (goodCharacters.get(0) == null) {
+                            System.out.println("Luke Skywalker is null");
+                        }
+                        int locX = goodCharacters.get(0).getLokasyon().getX();
+                        int locY = goodCharacters.get(0).getLokasyon().getY();
+                        clearOldCell(goodCharacters.get(0).getLokasyon().getX(), goodCharacters.get(0).getLokasyon().getY());
+                        locX -= 1;
+                        goodCharacters.get(0).getLokasyon().setX(locX);
+                        cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setText("");
+                        cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(0).getKarakterSimgesi());
+                    } else if (goodCharacters.get(1).isActive()) {
+                        int locX = goodCharacters.get(1).getLokasyon().getX();
+                        int locY = goodCharacters.get(1).getLokasyon().getY();
+                        clearOldCell(goodCharacters.get(1).getLokasyon().getX(), goodCharacters.get(1).getLokasyon().getY());
+                        locX -= 1;
+                        goodCharacters.get(1).getLokasyon().setX(locX);
+                        cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setText("");
+                        cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(1).getKarakterSimgesi());
+                    } else {
+                        System.err.println("No active character found");
+                    }
+                    break;
+                case "DOWN":
+                    if (goodCharacters.get(0).isActive()) {
+                        int locX = goodCharacters.get(0).getLokasyon().getX();
+                        int locY = goodCharacters.get(0).getLokasyon().getY();
+                        clearOldCell(goodCharacters.get(0).getLokasyon().getX(), goodCharacters.get(0).getLokasyon().getY());
+                        locX += 1;
+                        goodCharacters.get(0).getLokasyon().setX(locX);
+                        cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setText("");
+                        cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(0).getKarakterSimgesi());
+                    } else if (goodCharacters.get(1).isActive()) {
+                        int locX = goodCharacters.get(1).getLokasyon().getX();
+                        int locY = goodCharacters.get(1).getLokasyon().getY();
+                        clearOldCell(goodCharacters.get(1).getLokasyon().getX(), goodCharacters.get(1).getLokasyon().getY());
+                        locX += 1;
+                        goodCharacters.get(1).getLokasyon().setX(locX);
+                        cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setText("");
+                        cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(1).getKarakterSimgesi());
+                    } else {
+                        System.err.println("No active character found");
+                    }
+                    break;
+                case "LEFT":
+                    if (goodCharacters.get(0).isActive()) {
+                        int locX = goodCharacters.get(0).getLokasyon().getX();
+                        int locY = goodCharacters.get(0).getLokasyon().getY();
+                        clearOldCell(goodCharacters.get(0).getLokasyon().getX(), goodCharacters.get(0).getLokasyon().getY());
+                        locY -= 1;
+                        goodCharacters.get(0).getLokasyon().setY(locY);
+                        cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setText("");
+                        cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(0).getKarakterSimgesi());
+                    } else if (goodCharacters.get(1).isActive()) {
+                        int locX = goodCharacters.get(1).getLokasyon().getX();
+                        int locY = goodCharacters.get(1).getLokasyon().getY();
+                        clearOldCell(goodCharacters.get(1).getLokasyon().getX(), goodCharacters.get(1).getLokasyon().getY());
+                        locX -= 1;
+                        goodCharacters.get(1).getLokasyon().setY(locY);
+                        cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setText("");
+                        cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(0).getKarakterSimgesi());
+                    } else {
+                        System.err.println("No active character found");
+                    }
+                    break;
+                case "RIGHT":
+                    if (goodCharacters.get(0).isActive()) {
+                        int locX = goodCharacters.get(0).getLokasyon().getX();
+                        int locY = goodCharacters.get(0).getLokasyon().getY();
+                        clearOldCell(goodCharacters.get(0).getLokasyon().getX(), goodCharacters.get(0).getLokasyon().getY());
+                        locY += 1;
+                        goodCharacters.get(0).getLokasyon().setY(locY);
+                        cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setText("");
+                        cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(0).getKarakterSimgesi());
+                    } else if (goodCharacters.get(1).isActive()) {
+                        int locX = goodCharacters.get(1).getLokasyon().getX();
+                        int locY = goodCharacters.get(1).getLokasyon().getY();
+                        clearOldCell(goodCharacters.get(1).getLokasyon().getX(), goodCharacters.get(1).getLokasyon().getY());
+                        locX += 1;
+                        goodCharacters.get(1).getLokasyon().setY(locY);
+                        cellsAsJLabels[locX][locY].setHorizontalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setVerticalAlignment(SwingConstants.CENTER);
+                        cellsAsJLabels[locX][locY].setText("");
+                        cellsAsJLabels[locX][locY].setIcon(goodCharacters.get(0).getKarakterSimgesi());
+                    } else {
+                        System.err.println("No active character found");
+                    }
                     break;
                 default:
-                    System.err.println("Character cannot be added");
+                    System.err.println("Unknown direction");
             }
         }
     }

@@ -6,10 +6,10 @@ package starwars;
  */
 public class DarthVader extends Karakter {
     private static final String KARAKTER_SIMGESI_DIZINI = 
-            "resources/upArrow.png";
+            "resources/darthVader.png";
 
-    public DarthVader(int x, int y) {
-        super("Darth Vader", "kötü", KARAKTER_SIMGESI_DIZINI, x, y);
+    public DarthVader(int x, int y, boolean isActive) {
+        super("Darth Vader", "kötü", KARAKTER_SIMGESI_DIZINI, x, y, isActive);
     }
     
     @Override
