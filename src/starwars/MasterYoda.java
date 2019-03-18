@@ -6,7 +6,7 @@ package starwars;
  */
 public class MasterYoda extends Karakter {
     private static final String KARAKTER_SIMGESI_DIZINI 
-            = "resources/masterYoda.png";
+            = "resources/masterYoda.jpg";
     
     private int can;
 
