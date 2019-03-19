@@ -83,7 +83,7 @@ public class UserInterface extends JFrame {
         //Second row of GridBagLayout
                 
         JPanel mapPanel = new JPanel(new BorderLayout());
-        mapPanel.setBackground(new Color(150, 191, 195));
+//        mapPanel.setBackground(new Color(150, 191, 195));
         
         JPanel westArrowPanel = new JPanel(new GridLayout(11, 0));
         westArrowPanel.setBackground(new Color(150, 191, 195));
@@ -175,6 +175,14 @@ public class UserInterface extends JFrame {
             for (int i = 0; i < 11; i++) {
                 for (int j = 0; j < 14; j++) {
                     cellsAsJLabels[i][j] = new JLabel(mazeData[i][j]);
+                    cellsAsJLabels[i][j].setOpaque(true);
+                    if (mazeData[i][j].equals("0")) {
+                        cellsAsJLabels[i][j].setBackground(Color.WHITE);
+                    } else if (mazeData[i][j].equals("1")) {
+                        cellsAsJLabels[i][j].setBackground(new Color(150, 191, 195));
+                    } else {
+                        System.err.println("Unknown maze data");
+                    }
                     cellsAsJLabels[i][j].setHorizontalAlignment(SwingConstants.RIGHT);
                     cellsAsJLabels[i][j].setVerticalAlignment(SwingConstants.BOTTOM);
                     cellsAsJLabels[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -511,6 +519,10 @@ public class UserInterface extends JFrame {
             if (locX == 0) {
                 return;
             }
+            boolean isNeighbourWall = cellsAsJLabels[locX - 1][locY].getText().equals("0");
+            if (isNeighbourWall) {
+                return;
+            }
             clearOldCell(locX, locY);
             locX -= 1;
             karakter.getLokasyon().setX(locX);
@@ -526,6 +538,10 @@ public class UserInterface extends JFrame {
             locX = karakter.getLokasyon().getX();
             locY = karakter.getLokasyon().getY();
             if (locX == 10) {
+                return;
+            }
+            boolean isNeighbourWall = cellsAsJLabels[locX + 1][locY].getText().equals("0");
+            if (isNeighbourWall) {
                 return;
             }
             clearOldCell(locX, locY);
@@ -545,6 +561,10 @@ public class UserInterface extends JFrame {
             if (locY == 0) {
                 return;
             }
+            boolean isNeighbourWall = cellsAsJLabels[locX][locY - 1].getText().equals("0");
+            if (isNeighbourWall) {
+                return;
+            }
             clearOldCell(locX, locY);
             locY -= 1;
             karakter.getLokasyon().setY(locY);
@@ -561,6 +581,10 @@ public class UserInterface extends JFrame {
             locX = karakter.getLokasyon().getX();
             locY = karakter.getLokasyon().getY();
             if (locY == 13) {
+                return;
+            }
+            boolean isNeighbourWall = cellsAsJLabels[locX][locY + 1].getText().equals("0");
+            if (isNeighbourWall) {
                 return;
             }
             clearOldCell(locX, locY);
